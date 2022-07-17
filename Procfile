@@ -1,0 +1,1 @@
+web java -Dserver.port=3000 $JAVA_OPTS -jar target/slack-sdk-0.0.1-SNAPSHOT.jar
