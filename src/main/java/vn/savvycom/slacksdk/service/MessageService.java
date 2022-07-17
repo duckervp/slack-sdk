@@ -71,6 +71,7 @@ public class MessageService {
      * Post a message to a channel your app is in using ID and message text
      */
     public void publishMessage(String id, String text) {
+        log.info(env.getProperty("slack.botToken"));
         // you can get this instance via ctx.client() in a Bolt app
         var client = Slack.getInstance().methods();
         try {
