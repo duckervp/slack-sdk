@@ -38,7 +38,7 @@ public class SlackApp {
                 .clientId(env.getProperty("slack.clientId"))
                 .clientSecret(env.getProperty("slack.clientSecret"))
                 .signingSecret(env.getProperty("slack.signingSecret"))
-                .scope("app_mentions:read,channels:history,channels:read,chat:write")
+                .scope("im:write,chat:write")
                 .oauthInstallPath("/slack/install")
                 .oauthRedirectUriPath("/slack/oauth_redirect")
                 .build();
