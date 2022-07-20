@@ -21,7 +21,7 @@ public class SlackApp {
 
     // If you would like to run this app for a single workspace,
     // enabling this Bean factory should work for you.
-    @Bean
+//     @Bean
     public AppConfig loadSingleWorkspaceAppConfig() {
         return AppConfig.builder()
                 .singleTeamBotToken(env.getProperty("slack.botToken"))
@@ -31,7 +31,7 @@ public class SlackApp {
 
     // If you would like to run this app for multiple workspaces,
     // enabling this Bean factory should work for you.
-//    @Bean
+    @Bean
     public AppConfig loadOAuthConfig() {
         return AppConfig.builder()
                 .singleTeamBotToken(null)
