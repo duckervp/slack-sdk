@@ -46,10 +46,6 @@ public class SlackApp {
 
     @Bean
     public App initSlackApp(AppConfig config) {
-        log.info(config.toString());
-        log.info(config.getSingleTeamBotToken().toString());
-        System.out.println(config);
-        System.out.println(config.getSingleTeamBotToken());
         App app = new App(config);
         if (config.getClientId() != null) {
             app.asOAuthApp(true);
