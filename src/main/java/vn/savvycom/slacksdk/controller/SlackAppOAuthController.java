@@ -1,4 +1,4 @@
-package vn.savvycom.slacksdk;
+package vn.savvycom.slacksdk.controller;
 
 import com.slack.api.bolt.App;
 import com.slack.api.bolt.servlet.SlackOAuthAppServlet;

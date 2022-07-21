@@ -1,14 +1,14 @@
 package vn.savvycom.slacksdk.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import vn.savvycom.slacksdk.domain.model.sendMessage.MessageInput;
-import vn.savvycom.slacksdk.service.MessageService;
+import vn.savvycom.slacksdk.service.client.MessageService;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/slack")
@@ -18,18 +18,6 @@ public class MessageController {
 
     @PostMapping("/sendMessage")
     public void sendMessage(@RequestBody @Valid MessageInput messageInput) {
-        messageService.publishMessage(
-                messageInput.getChannelId(),
-                messageInput.getContent());
-    }
-
-    @GetMapping("/channel")
-    public Map<String, Object> findChannelId(@RequestParam String name) {
-        var result = new HashMap<String, Object>();
-        String channelId = messageService.findConversation(name);
-        if (Objects.nonNull(channelId)) {
-            result.put("channelId", channelId);
-        }
-        return result;
+        messageService.send(messageInput);
     }
 }

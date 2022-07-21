@@ -1,8 +1,24 @@
 server:
-  port: ${PORT:3000}
+  port: ${PORT}
 
 slack:
-  botToken: ${SLACK_BOT_TOKEN}
   clientId: ${SLACK_CLIENT_ID}
   clientSecret: ${SLACK_CLIENT_SECRET}
   signingSecret: ${SLACK_SIGNING_SECRET}
+
+spring:
+  jpa:
+    openInView: false
+    databasePlatform: org.hibernate.dialect.PostgreSQL81Dialect
+    hibernate:
+      ddlAuto: update
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+
