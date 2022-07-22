@@ -12,4 +12,6 @@ public interface IUserService {
     List<User> findByTeamId(String teamId);
 
     List<User> findByEnterpriseId(String enterpriseId);
+
+    List<User> findAll();
 }

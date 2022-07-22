@@ -12,7 +12,8 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Builder
 public class MessageInput {
-    @NotBlank(message = "channelId must not be blank")
     private String channelId;
+
+    @NotBlank(message = "content must not be blank")
     private String content;
 }

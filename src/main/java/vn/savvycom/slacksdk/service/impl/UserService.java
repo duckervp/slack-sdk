@@ -36,4 +36,9 @@ public class UserService implements IUserService {
     public List<User> findByEnterpriseId(String enterpriseId) {
         return userRepository.findByEnterpriseId(enterpriseId);
     }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
 }

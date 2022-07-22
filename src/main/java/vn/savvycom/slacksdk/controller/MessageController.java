@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vn.savvycom.slacksdk.domain.model.sendMessage.MessageInput;
-import vn.savvycom.slacksdk.service.client.MessageService;
+import vn.savvycom.slacksdk.service.client.IMessageService;
 
 import javax.validation.Valid;
 
@@ -14,7 +14,7 @@ import javax.validation.Valid;
 @RequestMapping("/slack")
 @RequiredArgsConstructor
 public class MessageController {
-    private final MessageService messageService;
+    private final IMessageService messageService;
 
     @PostMapping("/sendMessage")
     public void sendMessage(@RequestBody @Valid MessageInput messageInput) {
