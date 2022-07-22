@@ -1,4 +1,4 @@
-package vn.savvycom.slacksdk.domain.model.sendMessage;
+package vn.savvycom.slackprovider.domain.model.sendMessage;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

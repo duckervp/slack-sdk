@@ -1,4 +1,4 @@
-package vn.savvycom.slacksdk.service.auth;
+package vn.savvycom.slackprovider.service.auth;
 
 import com.slack.api.bolt.AppConfig;
 import com.slack.api.bolt.context.builtin.OAuthCallbackContext;
@@ -13,8 +13,8 @@ import com.slack.api.methods.SlackApiException;
 import com.slack.api.methods.response.auth.AuthTestResponse;
 import com.slack.api.methods.response.oauth.OAuthAccessResponse;
 import lombok.extern.slf4j.Slf4j;
-import vn.savvycom.slacksdk.domain.entity.User;
-import vn.savvycom.slacksdk.service.IUserService;
+import vn.savvycom.slackprovider.domain.entity.User;
+import vn.savvycom.slackprovider.service.IUserService;
 
 import java.io.IOException;
 import java.util.List;

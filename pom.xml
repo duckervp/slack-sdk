@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>vn.savvycom</groupId>
-    <artifactId>slack-sdk</artifactId>
+    <artifactId>slack-provider</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>slack-sdk</name>
-    <description>slack-sdk</description>
+    <name>slack-provider</name>
+    <description>slack-provider</description>
     <properties>
         <java.version>11</java.version>
         <bolt.version>1.23.1</bolt.version>

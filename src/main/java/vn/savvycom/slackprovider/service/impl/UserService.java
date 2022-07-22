@@ -1,14 +1,12 @@
-package vn.savvycom.slacksdk.service.impl;
+package vn.savvycom.slackprovider.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-import vn.savvycom.slacksdk.domain.entity.User;
-import vn.savvycom.slacksdk.repository.UserRepository;
-import vn.savvycom.slacksdk.service.IUserService;
+import vn.savvycom.slackprovider.domain.entity.User;
+import vn.savvycom.slackprovider.repository.UserRepository;
+import vn.savvycom.slackprovider.service.IUserService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

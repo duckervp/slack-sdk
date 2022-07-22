@@ -1,7 +1,7 @@
-package vn.savvycom.slacksdk.repository;
+package vn.savvycom.slackprovider.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import vn.savvycom.slacksdk.domain.entity.User;
+import vn.savvycom.slackprovider.domain.entity.User;
 
 import java.util.List;
 import java.util.Optional;

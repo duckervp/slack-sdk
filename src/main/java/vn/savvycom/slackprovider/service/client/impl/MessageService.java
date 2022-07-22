@@ -1,14 +1,16 @@
-package vn.savvycom.slacksdk.service.client.impl;
+package vn.savvycom.slackprovider.service.client.impl;
 
 import com.slack.api.Slack;
 import com.slack.api.methods.SlackApiException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import vn.savvycom.slacksdk.domain.entity.User;
-import vn.savvycom.slacksdk.domain.model.sendMessage.MessageInput;
-import vn.savvycom.slacksdk.service.IUserService;
-import vn.savvycom.slacksdk.service.client.IMessageService;
+import vn.savvycom.slackprovider.domain.entity.User;
+import vn.savvycom.slackprovider.domain.model.sendMessage.MessageInput;
+import vn.savvycom.slackprovider.exception.SendMessageFailedException;
+import vn.savvycom.slackprovider.exception.SlackException;
+import vn.savvycom.slackprovider.service.IUserService;
+import vn.savvycom.slackprovider.service.client.IMessageService;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -52,12 +54,15 @@ public class MessageService implements IMessageService {
                             .token(botToken)
                             .channel(messageInput.getChannelId())
                             .text(messageInput.getContent())
-                    // You could also use a blocks[] array to send richer content
             );
             // Print result, which includes information about the message (like TS)
             log.info("result {}", result);
+            if (!result.isOk()) {
+                throw new SendMessageFailedException(result.getError());
+            }
         } catch (IOException | SlackApiException e) {
             log.error("error: {}", e.getMessage(), e);
+            throw new SlackException(e.getMessage());
         }
     }
 

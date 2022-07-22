@@ -1,4 +1,4 @@
-package vn.savvycom.slacksdk.domain.entity;
+package vn.savvycom.slackprovider.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

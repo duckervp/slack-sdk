@@ -1,10 +1,10 @@
-package vn.savvycom.slacksdk;
+package vn.savvycom.slackprovider;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SlackSdkApplicationTests {
+class SlackProviderApplicationTests {
 
     @Test
     void contextLoads() {

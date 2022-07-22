@@ -1,4 +1,4 @@
-package vn.savvycom.slacksdk;
+package vn.savvycom.slackprovider;
 
 import com.slack.api.bolt.App;
 import com.slack.api.bolt.AppConfig;
@@ -9,9 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import vn.savvycom.slacksdk.service.IUserService;
-import vn.savvycom.slacksdk.service.auth.CustomOAuthSuccessHandler;
-import vn.savvycom.slacksdk.service.auth.CustomOAuthV2SuccessHandler;
+import vn.savvycom.slackprovider.service.IUserService;
+import vn.savvycom.slackprovider.service.auth.CustomOAuthSuccessHandler;
+import vn.savvycom.slackprovider.service.auth.CustomOAuthV2SuccessHandler;
 
 @Configuration
 @RequiredArgsConstructor

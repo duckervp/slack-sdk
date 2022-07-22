@@ -1,6 +1,6 @@
-package vn.savvycom.slacksdk.service;
+package vn.savvycom.slackprovider.service;
 
-import vn.savvycom.slacksdk.domain.entity.User;
+import vn.savvycom.slackprovider.domain.entity.User;
 
 import java.util.List;
 
