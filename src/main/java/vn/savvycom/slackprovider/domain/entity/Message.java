@@ -9,20 +9,20 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "user_info")
+@Table(name = "message")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+public class Message {
     @Id
-    private String userId;
-    private String teamId;
-    private String enterpriseId;
-    private String botUserId;
-    @NotBlank
-    private String botToken;
-    private String userToken;
-    private String scope;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    private String recipientId;
+
+    @NotBlank(message = "message `content` must not be null or blank")
+    private String content;
+
+    private String rule;
 }

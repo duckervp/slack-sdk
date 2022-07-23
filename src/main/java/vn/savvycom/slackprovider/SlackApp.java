@@ -9,7 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import vn.savvycom.slackprovider.service.IUserService;
+import vn.savvycom.slackprovider.service.IRecipientService;
+import vn.savvycom.slackprovider.service.IWorkspaceService;
 import vn.savvycom.slackprovider.service.auth.CustomOAuthSuccessHandler;
 import vn.savvycom.slackprovider.service.auth.CustomOAuthV2SuccessHandler;
 
@@ -17,8 +18,8 @@ import vn.savvycom.slackprovider.service.auth.CustomOAuthV2SuccessHandler;
 @RequiredArgsConstructor
 @Slf4j
 public class SlackApp {
-    private final IUserService userService;
-
+    private final IWorkspaceService workspaceService;
+    private final IRecipientService recipientService;
     private final Environment env;
 
     @Bean
@@ -28,7 +29,7 @@ public class SlackApp {
                 .clientId(env.getProperty("slack.clientId"))
                 .clientSecret(env.getProperty("slack.clientSecret"))
                 .signingSecret(env.getProperty("slack.signingSecret"))
-                .scope("chat:write,im:write")
+                .scope("chat:write,chat:write.public,im:write")
                 .oauthInstallPath("/slack/install")
                 .oauthRedirectUriPath("/slack/oauth_redirect")
                 .build();
@@ -45,9 +46,9 @@ public class SlackApp {
         if (config.getClientId() != null) {
             app.asOAuthApp(true);
             if (config.isClassicAppPermissionsEnabled()) {
-                app.oauthCallback(new CustomOAuthSuccessHandler(config, installationService, userService));
+                app.oauthCallback(new CustomOAuthSuccessHandler(config, installationService, workspaceService, recipientService));
             } else {
-                app.oauthCallback(new CustomOAuthV2SuccessHandler(config, installationService, userService));
+                app.oauthCallback(new CustomOAuthV2SuccessHandler(config, installationService, workspaceService, recipientService));
             }
         }
         return app;

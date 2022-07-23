@@ -1,4 +1,4 @@
-package vn.savvycom.slackprovider.service.client;
+package vn.savvycom.slackprovider.service;
 
 import vn.savvycom.slackprovider.domain.model.sendMessage.MessageInput;
 

@@ -15,12 +15,17 @@ import com.slack.api.methods.SlackApiException;
 import com.slack.api.methods.response.auth.AuthTestResponse;
 import com.slack.api.methods.response.oauth.OAuthV2AccessResponse;
 import lombok.extern.slf4j.Slf4j;
-import vn.savvycom.slackprovider.domain.entity.User;
-import vn.savvycom.slackprovider.service.IUserService;
+import vn.savvycom.slackprovider.domain.entity.Recipient;
+import vn.savvycom.slackprovider.domain.entity.Workspace;
+import vn.savvycom.slackprovider.service.IRecipientService;
+import vn.savvycom.slackprovider.service.IWorkspaceService;
 
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * This class
+ */
 @Slf4j
 public class CustomOAuthV2SuccessHandler implements OAuthV2SuccessHandler {
 
@@ -29,19 +34,21 @@ public class CustomOAuthV2SuccessHandler implements OAuthV2SuccessHandler {
     private final OAuthRedirectUriPageRenderer pageRenderer;
     private OAuthV2SuccessPersistenceCallback persistenceCallback;
     private OAuthV2SuccessPersistenceErrorCallback persistenceErrorCallback;
-
-    private final IUserService userService;
+    private final IWorkspaceService workspaceService;
+    private final IRecipientService recipientService;
 
     public CustomOAuthV2SuccessHandler(
             AppConfig appConfig,
             InstallationService installationService,
-            IUserService userService) {
+            IWorkspaceService workspaceService,
+            IRecipientService recipientService) {
         this.appConfig = appConfig;
         this.installationService = installationService;
         this.pageRenderer = appConfig.getOAuthRedirectUriPageRenderer();
         this.persistenceCallback = DEFAULT_PERSISTENCE_SUCCESS_CALLBACK;
         this.persistenceErrorCallback = DEFAULT_PERSISTENCE_SUCCESS_ERROR_CALLBACK;
-        this.userService = userService;
+        this.workspaceService = workspaceService;
+        this.recipientService = recipientService;
     }
 
     @Override
@@ -125,17 +132,24 @@ public class CustomOAuthV2SuccessHandler implements OAuthV2SuccessHandler {
                     .installer(installer)
                     .apiResponse(o)
                     .build());
-            User user = User.builder()
-                    .userId(o.getAuthedUser().getId())
-                    .teamId(teamId)
-                    .enterpriseId(enterpriseId)
-                    .botUserId(o.getBotUserId())
+
+            // save workspace and user install app to db
+            Workspace workspace = Workspace.builder()
+                    .id(teamId)
+                    .name(teamName)
                     .botToken(o.getAccessToken())
-                    .userToken(o.getAccessToken())
-                    .scope(o.getScope())
+                    .active(true)
                     .build();
-            userService.save(user);
-            log.info("Save user info to db: " + user.toString());
+            Recipient recipient = Recipient.builder()
+                    .id(o.getAuthedUser().getId())
+                    .workspaceId(teamId)
+                    .installUser(true)
+                    .active(true)
+                    .build();
+            workspaceService.save(workspace);
+            log.info("Save workspace info to db {}", workspace);
+            recipientService.save(recipient);
+            log.info("Save recipient info to db {}", recipient);
         } catch (Exception error) {
             getPersistenceErrorCallback().handle(OAuthV2SuccessPersistenceErrorCallback.Arguments.builder()
                     .error(error)

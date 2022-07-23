@@ -1,4 +1,4 @@
-package vn.savvycom.slackprovider.domain.model.sendMessage;
+package vn.savvycom.slackprovider.domain.model.addRecipient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -13,11 +13,9 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MessageInput {
-    private String recipientId;
-
-    @NotBlank(message = "message `content` must not be blank")
-    private String content;
-
-    private String rule;
+public class RecipientInput {
+    @NotBlank(message = "recipient `id` must not be null or blank")
+    private String id;
+    @NotBlank(message = "recipient `workspaceId` must not be null or blank")
+    private String workspaceId;
 }

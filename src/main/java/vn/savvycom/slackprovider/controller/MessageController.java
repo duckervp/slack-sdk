@@ -8,19 +8,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vn.savvycom.slackprovider.domain.model.sendMessage.MessageInput;
-import vn.savvycom.slackprovider.service.client.IMessageService;
+import vn.savvycom.slackprovider.service.IMessageService;
 
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/slack")
 @RequiredArgsConstructor
-public class MessageController {
+public class MessageController extends BaseController {
     private final IMessageService messageService;
 
     @PostMapping("/sendMessage")
     public ResponseEntity<?> sendMessage(@RequestBody @Valid MessageInput messageInput) {
         messageService.send(messageInput);
-        return new ResponseEntity<>("Send message succeed.", HttpStatus.OK);
+        return successResponse();
     }
 }
