@@ -10,11 +10,11 @@ public interface IRecipientService {
 
     void save(RecipientInput recipientInput);
 
-    Recipient findById(String id);
+    Recipient findActiveRecipientById(String id);
 
-    List<Recipient> findByWorkspaceId(String workspaceId);
-
-    List<Recipient> findAll();
+    List<Recipient> findActiveRecipientByWorkspaceId(String workspaceId);
 
     void delete(String id);
+
+    void deleteRecipients(List<Recipient> recipients);
 }

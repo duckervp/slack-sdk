@@ -5,9 +5,9 @@ import vn.savvycom.slackprovider.domain.entity.Workspace;
 import java.util.List;
 
 public interface IWorkspaceService {
-    Workspace findById(String id);
+    Workspace findActiveWorkspaceById(String id);
 
-    List<Workspace> findAll();
+    List<Workspace> findAllActiveWorkspace();
 
     void save(Workspace workspace);
 

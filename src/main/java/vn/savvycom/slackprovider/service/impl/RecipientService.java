@@ -9,6 +9,8 @@ import vn.savvycom.slackprovider.repository.RecipientRepository;
 import vn.savvycom.slackprovider.service.IRecipientService;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,26 +31,33 @@ public class RecipientService implements IRecipientService {
     }
 
     @Override
-    public Recipient findById(String id) {
-        return recipientRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Not found any recipient with id " + id));
+    public Recipient findActiveRecipientById(String id) {
+        Optional<Recipient> recipient = recipientRepository.findById(id);
+        if (recipient.isEmpty() || !recipient.get().isActive()) {
+            throw new IllegalArgumentException("Not found any recipient with id " + id);
+        }
+        return recipient.get();
     }
 
     @Override
-    public List<Recipient> findByWorkspaceId(String workspaceId) {
-        return recipientRepository.findByWorkspaceId(workspaceId);
-    }
-
-
-    @Override
-    public List<Recipient> findAll() {
-        return recipientRepository.findAll();
+    public List<Recipient> findActiveRecipientByWorkspaceId(String workspaceId) {
+        return recipientRepository.findByWorkspaceId(workspaceId)
+                .stream().filter(Recipient::isActive)
+                .collect(Collectors.toList());
     }
 
     @Override
     public void delete(String id) {
-        Recipient recipient = findById(id);
+        Recipient recipient = findActiveRecipientById(id);
         recipient.setActive(false);
         save(recipient);
+    }
+
+    @Override
+    public void deleteRecipients(List<Recipient> recipients) {
+        for (Recipient recipient : recipients) {
+            recipient.setActive(false);
+        }
+        recipientRepository.saveAll(recipients);
     }
 }

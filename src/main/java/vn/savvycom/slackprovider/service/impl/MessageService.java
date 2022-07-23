@@ -54,8 +54,8 @@ public class MessageService implements IMessageService {
      */
     private void sendSingleMessage(MessageInput messageInput) {
         // find the bot token for the workspace that the recipient is in and send message
-        Recipient recipient = recipientService.findById(messageInput.getRecipientId());
-        Workspace workspace = workspaceService.findById(recipient.getWorkspaceId());
+        Recipient recipient = recipientService.findActiveRecipientById(messageInput.getRecipientId());
+        Workspace workspace = workspaceService.findActiveWorkspaceById(recipient.getWorkspaceId());
         sendMessage(messageInput, workspace.getBotToken());
     }
 
@@ -88,9 +88,9 @@ public class MessageService implements IMessageService {
      * Send message to all users in each workspace
      */
     private void sendMessageToAll(MessageInput messageInput) {
-        List<Workspace> workspaces = workspaceService.findAll();
+        List<Workspace> workspaces = workspaceService.findAllActiveWorkspace();
         for (Workspace workspace : workspaces) {
-            for (Recipient recipient : recipientService.findByWorkspaceId(workspace.getId())) {
+            for (Recipient recipient : recipientService.findActiveRecipientByWorkspaceId(workspace.getId())) {
                 messageInput.setRecipientId(recipient.getId());
                 sendMessage(messageInput, workspace.getBotToken());
             }
