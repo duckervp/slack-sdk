@@ -20,6 +20,7 @@ import vn.savvycom.slackprovider.service.IMessageService;
 import vn.savvycom.slackprovider.service.IWorkspaceService;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,6 +47,7 @@ public class MessageService implements IMessageService {
         sendMessageToAll(messageInput);
         // save message
         Message message = objectMapper.convertValue(messageInput, Message.class);
+        message.setCreatedAt(LocalDateTime.now());
         messageRepository.save(message);
     }
 

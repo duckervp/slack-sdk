@@ -11,12 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-@Entity
-@Table(name = "workspace")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Entity
+@Table(name = "workspace")
 public class Workspace {
     @Id
     private String id;
