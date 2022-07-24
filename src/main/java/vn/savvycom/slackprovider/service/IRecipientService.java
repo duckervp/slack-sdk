@@ -12,7 +12,7 @@ public interface IRecipientService {
 
     Recipient findActiveRecipientById(String id);
 
-    List<Recipient> findActiveRecipientByWorkspaceId(String workspaceId);
+    List<Recipient> findActiveRecipientByTeamId(String teamId);
 
     void delete(String id);
 

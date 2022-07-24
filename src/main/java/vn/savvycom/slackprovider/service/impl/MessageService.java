@@ -10,14 +10,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import vn.savvycom.slackprovider.domain.entity.Message;
 import vn.savvycom.slackprovider.domain.entity.Recipient;
-import vn.savvycom.slackprovider.domain.entity.Workspace;
+import vn.savvycom.slackprovider.domain.entity.Team;
 import vn.savvycom.slackprovider.domain.model.sendMessage.MessageInput;
 import vn.savvycom.slackprovider.exception.SendMessageFailedException;
 import vn.savvycom.slackprovider.exception.SlackException;
 import vn.savvycom.slackprovider.repository.MessageRepository;
 import vn.savvycom.slackprovider.service.IRecipientService;
 import vn.savvycom.slackprovider.service.IMessageService;
-import vn.savvycom.slackprovider.service.IWorkspaceService;
+import vn.savvycom.slackprovider.service.ITeamService;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -28,7 +28,7 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 public class MessageService implements IMessageService {
-    private final IWorkspaceService workspaceService;
+    private final ITeamService teamService;
     private final IRecipientService recipientService;
     private final MessageRepository messageRepository;
     private final ObjectMapper objectMapper;
@@ -55,10 +55,10 @@ public class MessageService implements IMessageService {
      * Post a message to a channel your app is in using ID and message text
      */
     private void sendSingleMessage(MessageInput messageInput) {
-        // find the bot token for the workspace that the recipient is in and send message
+        // find the bot token for the team that the recipient is in and send message
         Recipient recipient = recipientService.findActiveRecipientById(messageInput.getRecipientId());
-        Workspace workspace = workspaceService.findActiveWorkspaceById(recipient.getWorkspaceId());
-        sendMessage(messageInput, workspace.getBotToken());
+        Team team = teamService.findActiveTeamById(recipient.getTeamId());
+        sendMessage(messageInput, team.getBotToken());
     }
 
     /**
@@ -87,14 +87,14 @@ public class MessageService implements IMessageService {
     }
 
     /**
-     * Send message to all users in each workspace
+     * Send message to all users in each team
      */
     private void sendMessageToAll(MessageInput messageInput) {
-        List<Workspace> workspaces = workspaceService.findAllActiveWorkspace();
-        for (Workspace workspace : workspaces) {
-            for (Recipient recipient : recipientService.findActiveRecipientByWorkspaceId(workspace.getId())) {
+        List<Team> teams = teamService.findAllActiveTeam();
+        for (Team team : teams) {
+            for (Recipient recipient : recipientService.findActiveRecipientByTeamId(team.getId())) {
                 messageInput.setRecipientId(recipient.getId());
-                sendMessage(messageInput, workspace.getBotToken());
+                sendMessage(messageInput, team.getBotToken());
             }
         }
     }

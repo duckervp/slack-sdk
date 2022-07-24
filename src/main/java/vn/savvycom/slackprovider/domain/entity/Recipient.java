@@ -17,8 +17,8 @@ import javax.validation.constraints.NotBlank;
 public class Recipient {
     @Id
     private String id;
-    @NotBlank(message = "`workspaceId` must not be null or blank")
-    private String workspaceId;
+    @NotBlank(message = "`teamId` must not be null or blank")
+    private String teamId;
     @Column(columnDefinition = "boolean default false")
     private boolean installUser = false;
     @Column(columnDefinition = "boolean default true")

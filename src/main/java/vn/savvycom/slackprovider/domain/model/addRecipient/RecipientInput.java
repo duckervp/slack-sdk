@@ -16,6 +16,6 @@ import javax.validation.constraints.NotBlank;
 public class RecipientInput {
     @NotBlank(message = "recipient `id` must not be null or blank")
     private String id;
-    @NotBlank(message = "recipient `workspaceId` must not be null or blank")
-    private String workspaceId;
+    @NotBlank(message = "recipient `teamId` must not be null or blank")
+    private String teamId;
 }

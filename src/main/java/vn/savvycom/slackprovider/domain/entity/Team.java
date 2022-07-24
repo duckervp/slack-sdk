@@ -16,8 +16,8 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "workspace")
-public class Workspace {
+@Table(name = "team")
+public class Team {
     @Id
     private String id;
     private String name;

@@ -11,11 +11,11 @@ import org.springframework.util.Assert;
 import vn.savvycom.slackprovider.domain.entity.CustomBot;
 import vn.savvycom.slackprovider.domain.entity.CustomInstaller;
 import vn.savvycom.slackprovider.domain.entity.Recipient;
-import vn.savvycom.slackprovider.domain.entity.Workspace;
+import vn.savvycom.slackprovider.domain.entity.Team;
 import vn.savvycom.slackprovider.repository.CustomBotRepository;
 import vn.savvycom.slackprovider.repository.CustomInstallerRepository;
 import vn.savvycom.slackprovider.service.IRecipientService;
-import vn.savvycom.slackprovider.service.IWorkspaceService;
+import vn.savvycom.slackprovider.service.ITeamService;
 
 import java.util.Objects;
 
@@ -25,7 +25,7 @@ import java.util.Objects;
 public class JpaInstallationService implements InstallationService {
     private final CustomInstallerRepository installerRepository;
     private final CustomBotRepository botRepository;
-    private final IWorkspaceService workspaceService;
+    private final ITeamService teamService;
     private final IRecipientService recipientService;
     private final ObjectMapper objectMapper;
     private boolean historicalDataEnabled;
@@ -46,27 +46,27 @@ public class JpaInstallationService implements InstallationService {
         CustomInstaller installerInfo = objectMapper.convertValue(installer, CustomInstaller.class);
         installerRepository.save(installerInfo);
 
-        // save workspace and recipient info
-        String workspaceId = installerInfo.getTeamId();
-        String workspaceName = installerInfo.getTeamName();
+        // save team and recipient info
+        String teamId = installerInfo.getTeamId();
+        String teamName = installerInfo.getTeamName();
         if (installerInfo.getIsEnterpriseInstall()) {
-            workspaceId = installerInfo.getEnterpriseId();
-            workspaceName = installerInfo.getEnterpriseName();
+            teamId = installerInfo.getEnterpriseId();
+            teamName = installerInfo.getEnterpriseName();
         }
-        Workspace workspace = Workspace.builder()
-                .id(workspaceId)
-                .name(workspaceName)
+        Team team = Team.builder()
+                .id(teamId)
+                .name(teamName)
                 .botToken(installerInfo.getBotAccessToken())
                 .active(true)
                 .build();
         Recipient recipient = Recipient.builder()
                 .id(installerInfo.getInstallerUserId())
-                .workspaceId(installerInfo.getTeamId())
+                .teamId(installerInfo.getTeamId())
                 .installUser(true)
                 .active(true)
                 .build();
-        workspaceService.save(workspace);
-        log.info("Save workspace info to db {}", workspace);
+        teamService.save(team);
+        log.info("Save team info to db {}", team);
         recipientService.save(recipient);
         log.info("Save recipient info to db {}", recipient);
         // save bot info
@@ -82,18 +82,20 @@ public class JpaInstallationService implements InstallationService {
 
     @Override
     public void deleteBot(Bot bot) {
+        log.info("Delete bot {}", bot);
         CustomBot botInfo = objectMapper.convertValue(bot, CustomBot.class);
         if (botInfo.getIsEnterpriseInstall()) {
             botRepository.deleteByAppIdAndEnterpriseId(botInfo.getAppId(), botInfo.getEnterpriseId());
-            workspaceService.delete(botInfo.getEnterpriseId());
+            teamService.delete(botInfo.getEnterpriseId());
         } else {
             botRepository.deleteByAppIdAndTeamId(botInfo.getAppId(), botInfo.getTeamId());
-            workspaceService.delete(botInfo.getTeamId());
+            teamService.delete(botInfo.getTeamId());
         }
     }
 
     @Override
     public void deleteInstaller(Installer installer) {
+        log.info("Delete installer {}", installer);
         CustomInstaller installerInfo = objectMapper.convertValue(installer, CustomInstaller.class);
         if (installerInfo.getIsEnterpriseInstall()) {
             installerRepository.deleteByEnterpriseIdAndInstallerUserId(
@@ -139,15 +141,16 @@ public class JpaInstallationService implements InstallationService {
 
     @Override
     public void deleteAll(String enterpriseId, String teamId) {
+        log.info("Delete all {} {}", enterpriseId, teamId);
         if (Objects.nonNull(enterpriseId)) {
             botRepository.deleteByEnterpriseId(enterpriseId);
             installerRepository.deleteByEnterpriseId(enterpriseId);
-            workspaceService.delete(enterpriseId);
+            teamService.delete(enterpriseId);
         }
         if (Objects.nonNull(teamId)) {
-            botRepository.deleteByEnterpriseId(teamId);
-            installerRepository.deleteByEnterpriseId(teamId);
-            workspaceService.delete(enterpriseId);
+            botRepository.deleteByTeamId(teamId);
+            installerRepository.deleteByTeamId(teamId);
+            teamService.delete(teamId);
         }
     }
 }

@@ -18,7 +18,7 @@ import javax.persistence.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CustomBot implements Bot {
     @Id
-    private String botId;
+    private String botId;//B03P67D9NSK
     private String botUserId;
     private String botScope;
     private String botAccessToken;

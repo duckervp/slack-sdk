@@ -40,8 +40,8 @@ public class RecipientService implements IRecipientService {
     }
 
     @Override
-    public List<Recipient> findActiveRecipientByWorkspaceId(String workspaceId) {
-        return recipientRepository.findByWorkspaceId(workspaceId)
+    public List<Recipient> findActiveRecipientByTeamId(String teamId) {
+        return recipientRepository.findByTeamId(teamId)
                 .stream().filter(Recipient::isActive)
                 .collect(Collectors.toList());
     }

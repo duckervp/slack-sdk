@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface RecipientRepository extends JpaRepository<Recipient, String> {
-    List<Recipient> findByWorkspaceId(String workspaceId);
+    List<Recipient> findByTeamId(String teamId);
 }
