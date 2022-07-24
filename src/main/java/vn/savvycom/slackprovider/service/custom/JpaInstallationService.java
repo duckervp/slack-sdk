@@ -114,11 +114,11 @@ public class JpaInstallationService implements InstallationService {
         if (Objects.nonNull(enterpriseId)) {
             return botRepository.findByEnterpriseId(enterpriseId)
                     .orElseThrow(() -> new IllegalArgumentException(
-                            "Not found any bot with enterprise channelId " + enterpriseId));
+                            "Not found any bot with enterprise id " + enterpriseId));
         }
         return botRepository.findByTeamId(teamId)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Not found any bot with team channelId " + teamId));
+                        "Not found any bot with team id " + teamId));
     }
 
     @Override
@@ -130,12 +130,12 @@ public class JpaInstallationService implements InstallationService {
         if (Objects.nonNull(enterpriseId)) {
             return installerRepository.findByEnterpriseIdAndInstallerUserId(enterpriseId, userId)
                     .orElseThrow(() -> new IllegalArgumentException(
-                            String.format("Not found any bot with enterprise channelId %s and installer user channelId %s"
+                            String.format("Not found any bot with enterprise id %s and installer user id %s"
                                     , enterpriseId, userId)));
         }
         return installerRepository.findByTeamIdAndInstallerUserId(teamId, userId)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        String.format("Not found any bot with team channelId %s and installer user channelId %s"
+                        String.format("Not found any bot with team id %s and installer user id %s"
                                 , teamId, userId)));
     }
 
