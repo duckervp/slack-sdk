@@ -20,9 +20,9 @@ public class RecipientController extends BaseController {
         return successResponse();
     }
 
-    @DeleteMapping("/{recipientId}")
-    public ResponseEntity<?> deleteRecipient(@PathVariable String recipientId) {
-        recipientService.delete(recipientId);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteRecipient(@PathVariable String id) {
+        recipientService.delete(id);
         return successResponse();
     }
 }

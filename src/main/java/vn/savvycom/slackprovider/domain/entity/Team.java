@@ -1,5 +1,6 @@
 package vn.savvycom.slackprovider.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +18,7 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @Entity
 @Table(name = "team")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Team {
     @Id
     private String id;

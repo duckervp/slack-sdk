@@ -21,7 +21,7 @@ public class TeamService implements ITeamService {
     public Team findActiveTeamById(String id) {
         Optional<Team> team = teamRepository.findById(id);
         if (team.isEmpty() || !team.get().isActive()) {
-            throw new IllegalArgumentException("Not found any team with id " + id);
+            throw new IllegalArgumentException("Not found any team with channelId " + id);
         }
         return team.get();
     }

@@ -14,8 +14,8 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RecipientInput {
-    @NotBlank(message = "recipient `id` must not be null or blank")
-    private String id;
+    @NotBlank(message = "recipient `channelId` must not be null or blank")
+    private String channelId;
     @NotBlank(message = "recipient `teamId` must not be null or blank")
     private String teamId;
 }

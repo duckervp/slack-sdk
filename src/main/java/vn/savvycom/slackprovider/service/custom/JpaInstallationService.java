@@ -60,7 +60,7 @@ public class JpaInstallationService implements InstallationService {
                 .active(true)
                 .build();
         Recipient recipient = Recipient.builder()
-                .id(installerInfo.getInstallerUserId())
+                .channelId(installerInfo.getInstallerUserId())
                 .teamId(installerInfo.getTeamId())
                 .installUser(true)
                 .active(true)
@@ -114,11 +114,11 @@ public class JpaInstallationService implements InstallationService {
         if (Objects.nonNull(enterpriseId)) {
             return botRepository.findByEnterpriseId(enterpriseId)
                     .orElseThrow(() -> new IllegalArgumentException(
-                            "Not found any bot with enterprise id " + enterpriseId));
+                            "Not found any bot with enterprise channelId " + enterpriseId));
         }
         return botRepository.findByTeamId(teamId)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Not found any bot with team id " + teamId));
+                        "Not found any bot with team channelId " + teamId));
     }
 
     @Override
@@ -130,12 +130,12 @@ public class JpaInstallationService implements InstallationService {
         if (Objects.nonNull(enterpriseId)) {
             return installerRepository.findByEnterpriseIdAndInstallerUserId(enterpriseId, userId)
                     .orElseThrow(() -> new IllegalArgumentException(
-                            String.format("Not found any bot with enterprise id %s and installer user id %s"
+                            String.format("Not found any bot with enterprise channelId %s and installer user channelId %s"
                                     , enterpriseId, userId)));
         }
         return installerRepository.findByTeamIdAndInstallerUserId(teamId, userId)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        String.format("Not found any bot with team id %s and installer user id %s"
+                        String.format("Not found any bot with team channelId %s and installer user channelId %s"
                                 , teamId, userId)));
     }
 

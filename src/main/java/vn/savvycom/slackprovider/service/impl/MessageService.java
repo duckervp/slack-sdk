@@ -41,10 +41,10 @@ public class MessageService implements IMessageService {
         // if message input specify the recipient then send message to that recipient
         // otherwise send the message to all
         if (Objects.nonNull(messageInput.getRecipientId())) {
-            sendSingleMessage(messageInput);
+            sendSingleMessage(messageInput.getRecipientId(), messageInput.getContent());
             return;
         }
-        sendMessageToAll(messageInput);
+        sendMessageToAll(messageInput.getContent());
         // save message
         Message message = objectMapper.convertValue(messageInput, Message.class);
         message.setCreatedAt(LocalDateTime.now());
@@ -54,17 +54,17 @@ public class MessageService implements IMessageService {
     /**
      * Post a message to a channel your app is in using ID and message text
      */
-    private void sendSingleMessage(MessageInput messageInput) {
+    private void sendSingleMessage(String recipientId, String content) {
         // find the bot token for the team that the recipient is in and send message
-        Recipient recipient = recipientService.findActiveRecipientById(messageInput.getRecipientId());
+        Recipient recipient = recipientService.findActiveRecipientById(recipientId);
         Team team = teamService.findActiveTeamById(recipient.getTeamId());
-        sendMessage(messageInput, team.getBotToken());
+        sendMessage(recipient.getChannelId(), content, team.getBotToken());
     }
 
     /**
      * Post a message to a channel your app is in using ID, message text and a bot token
      */
-    private void sendMessage(MessageInput messageInput, String botToken) {
+    private void sendMessage(String channelId, String content, String botToken) {
         // you can get this instance via ctx.client() in a Bolt app
         MethodsClient client = Slack.getInstance().methods();
         try {
@@ -72,8 +72,8 @@ public class MessageService implements IMessageService {
             ChatPostMessageResponse result = client.chatPostMessage(r -> r
                             // The token you used to initialize your app
                             .token(botToken)
-                            .channel(messageInput.getRecipientId())
-                            .text(messageInput.getContent())
+                            .channel(channelId)
+                            .text(content)
             );
             // Print result, which includes information about the message (like TS)
             log.info("result {}", result);
@@ -89,12 +89,11 @@ public class MessageService implements IMessageService {
     /**
      * Send message to all users in each team
      */
-    private void sendMessageToAll(MessageInput messageInput) {
+    private void sendMessageToAll(String content) {
         List<Team> teams = teamService.findAllActiveTeam();
         for (Team team : teams) {
             for (Recipient recipient : recipientService.findActiveRecipientByTeamId(team.getId())) {
-                messageInput.setRecipientId(recipient.getId());
-                sendMessage(messageInput, team.getBotToken());
+                sendMessage(recipient.getChannelId(), content, team.getBotToken());
             }
         }
     }

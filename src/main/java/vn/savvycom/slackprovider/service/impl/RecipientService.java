@@ -20,6 +20,8 @@ public class RecipientService implements IRecipientService {
 
     @Override
     public void save(Recipient recipient) {
+        String id = String.format("%s.%s", recipient.getChannelId(), recipient.getTeamId());
+        recipient.setId(id);
         recipientRepository.save(recipient);
     }
 
@@ -34,7 +36,7 @@ public class RecipientService implements IRecipientService {
     public Recipient findActiveRecipientById(String id) {
         Optional<Recipient> recipient = recipientRepository.findById(id);
         if (recipient.isEmpty() || !recipient.get().isActive()) {
-            throw new IllegalArgumentException("Not found any recipient with id " + id);
+            throw new IllegalArgumentException("Not found any recipient with channelId " + id);
         }
         return recipient.get();
     }
