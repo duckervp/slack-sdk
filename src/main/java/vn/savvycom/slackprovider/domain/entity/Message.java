@@ -1,5 +1,6 @@
 package vn.savvycom.slackprovider.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table(name = "message")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
