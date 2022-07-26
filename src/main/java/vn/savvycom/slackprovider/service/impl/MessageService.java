@@ -45,10 +45,6 @@ public class MessageService implements IMessageService {
             return;
         }
         sendMessageToAll(messageInput);
-        // save message
-        Message message = objectMapper.convertValue(messageInput, Message.class);
-        message.setCreatedAt(LocalDateTime.now());
-        messageRepository.save(message);
     }
 
     /**
@@ -80,6 +76,10 @@ public class MessageService implements IMessageService {
             if (!result.isOk()) {
                 throw new SendMessageFailedException(result.getError());
             }
+            // save message
+            Message message = objectMapper.convertValue(messageInput, Message.class);
+            message.setCreatedAt(LocalDateTime.now());
+            messageRepository.save(message);
         } catch (IOException | SlackApiException e) {
             log.error("error: {}", e.getMessage(), e);
             throw new SlackException(e.getMessage());
