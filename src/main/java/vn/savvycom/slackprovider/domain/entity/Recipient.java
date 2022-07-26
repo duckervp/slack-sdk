@@ -20,7 +20,7 @@ public class Recipient {
     @NotBlank(message = "`teamId` must not be null or blank")
     private String teamId;
     @Column(columnDefinition = "boolean default false")
-    private boolean installUser = false;
+    private boolean installer = false;
     @Column(columnDefinition = "boolean default true")
     private boolean active = true;
 }

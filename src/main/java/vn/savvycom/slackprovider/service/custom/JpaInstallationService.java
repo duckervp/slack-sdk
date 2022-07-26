@@ -62,7 +62,7 @@ public class JpaInstallationService implements InstallationService {
         Recipient recipient = Recipient.builder()
                 .id(installerInfo.getInstallerUserId())
                 .teamId(installerInfo.getTeamId())
-                .installUser(true)
+                .installer(true)
                 .active(true)
                 .build();
         teamService.save(team);
